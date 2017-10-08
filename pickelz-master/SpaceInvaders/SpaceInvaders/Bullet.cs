@@ -28,12 +28,13 @@ namespace SpaceInvaders {
                 if (Canvas.GetTop(b) < 0) {
                     c.Children.Remove(b);
                 }
+                PosY = c.ActualHeight - Canvas.GetBottom(b);
             }
         }
         public Bullet(Canvas space, double x, string i) {
             bullet = new Image();
-            bullet.Name = "n"+i;
-            identity ="n"+ i;
+            bullet.Name = "b"+i;
+            identity ="b"+ i;
             space.Children.Add(bullet);
             c = space;
             bullet.Source = new BitmapImage(new Uri($"pack://application:,,,/Bullet.png")); // dont know how images work really 
@@ -42,7 +43,7 @@ namespace SpaceInvaders {
 
             Canvas.SetLeft(bullet, x);
             Canvas.SetBottom(bullet, 50);
-            PosY = Canvas.GetTop(bullet);
+            PosY = c.ActualHeight -Canvas.GetBottom(bullet);
             PosX = Canvas.GetLeft(bullet);
             width = bullet.ActualWidth;
             bullets.Add(this.bullet);

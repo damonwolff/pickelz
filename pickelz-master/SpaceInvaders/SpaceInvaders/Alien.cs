@@ -26,7 +26,7 @@ namespace SpaceInvaders {
             alien.Width = 25;
             alien.Height = 15;
 
-            width = alien.ActualWidth;
+            
             c = space;
 
             Canvas.SetLeft(alien, x);
@@ -34,6 +34,7 @@ namespace SpaceInvaders {
             PosX = Canvas.GetLeft(alien);
             PosY = Canvas.GetTop(alien);
             height = alien.ActualHeight;
+           width = 25;
         }
 
         public void delete(string a) {

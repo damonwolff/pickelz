@@ -26,7 +26,7 @@ namespace SpaceInvaders {
         state shipState;
         Ship player;
         Bullet b;
-        int noBull = 0;
+        int noBull = 0;// used to get a unique name for each bullet, to know which one to delete
         List<Bullet> bullets = new List<Bullet>();// thought having a list of bullets in the bullet class would be enough but this seems to work I'm just gonna leave it like this
         int firingInterval = 0; //so there's not a constant fire rate
         public int level = 1;
@@ -41,33 +41,30 @@ namespace SpaceInvaders {
             theTimer.Tick += dispatcherTimer_Tick;
             player = new Ship(space);
             addAliens(level);
-            
+
         }
 
         void addAliens(int lev) {
-            double x =50;
-            double y =15;
-            for (int i=0; i < lev * 15; i++) {
-                Alien a = new Alien(space,x,y,Convert.ToString(i));
+            double x = 50;
+            double y = 15;
+            for (int i = 0; i < lev * 15; i++) {
+                Alien a = new Alien(space, x, y, Convert.ToString(i));
                 aliens.Add(a);
                 x = x + 30;
             }
         }
 
         public void checkCollisions() {
-            foreach(Bullet b in bullets) {
-                foreach(Alien a in aliens) {
-                    if (b.PosX >= a.PosX) {// && b.PosY<=a.PosY+a.height) {
-                        
+            foreach (Bullet b in bullets) {
+                foreach (Alien a in aliens) {
+                    if (b.PosX >= a.PosX && (b.PosX + b.width) <= (a.width + a.PosX) && b.PosY <= a.PosY + a.height) {
                         b.delete(b.identity);
                         a.delete(a.identity);
-                        //bullets.Remove(b);
-                        //aliens.Remove(a);
-                        
                     }
                 }
             }
         }
+
 
         public void dispatcherTimer_Tick(object sender, EventArgs e) {
             firingInterval++;
@@ -79,6 +76,9 @@ namespace SpaceInvaders {
         void updateBullets() {
             foreach (Bullet b in bullets) {
                 b.forward();
+                if (b.PosY <= 0) {
+                    b.delete(b.identity);
+                }
             }
         }
 
