@@ -16,6 +16,7 @@ namespace SpaceInvaders
         public double PosX { get; set; }
         private double PosY { get; set; }
         public int VelX { get; set; }
+        public double actualX;
 
         public Canvas c;
         public void LeftRight(state s)
@@ -39,6 +40,7 @@ namespace SpaceInvaders
                 }
                     
             }
+            actualX = Canvas.GetLeft(ship)+27.5;// + (ship.ActualWidth/2);
         }
         public Ship(Canvas space)
         {

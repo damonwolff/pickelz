@@ -18,7 +18,7 @@ namespace SpaceInvaders {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    enum state {stopped, movingleft, movingright, shooting}
+    enum state { stopped, movingleft, movingright, shooting }
 
     public partial class MainWindow : Window {
         public DispatcherTimer theTimer;
@@ -26,6 +26,8 @@ namespace SpaceInvaders {
         state shipState;
         Ship player;
         Bullet b;
+        List<Bullet> bullets = new List<Bullet>();// thought having a list of bullets in the bullet class would be enough but this seems to work I'm just gonna leave it like this
+        int firingInterval = 0; //so there's not a constant fire rate
 
         public MainWindow() {
             InitializeComponent();
@@ -38,8 +40,15 @@ namespace SpaceInvaders {
         }
 
         public void dispatcherTimer_Tick(object sender, EventArgs e) {
+            firingInterval++;
             updateShip();
-                  
+            updateBullets();
+        }
+
+        void updateBullets() {
+            foreach (Bullet b in bullets) {
+                b.forward();
+            }
         }
 
         void updateShip() {
@@ -52,13 +61,16 @@ namespace SpaceInvaders {
                     player.LeftRight(shipState);
                     break;
                 case state.shooting:
-                    b = new Bullet(space);
-                    b.PosX = player.PosX;
-                    b.forward();
+                    if (firingInterval > 25) {
+                        b = new Bullet(space, player.actualX);
+                        bullets.Add(b);
+                        firingInterval = 0;
+                    }
                     break;
             }
+
         }
-        
+
 
         private void Windows_KeyDown(object sender, KeyEventArgs e) {
             switch (e.Key) {
