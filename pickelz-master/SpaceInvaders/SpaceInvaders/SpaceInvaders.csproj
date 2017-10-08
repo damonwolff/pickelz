@@ -55,6 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Alien.cs" />
     <Compile Include="Bullet.cs" />
     <Compile Include="Ship.cs" />
     <Page Include="MainWindow.xaml">
@@ -102,6 +103,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Bullet.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="alien.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
