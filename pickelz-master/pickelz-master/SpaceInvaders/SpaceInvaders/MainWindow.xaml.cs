@@ -29,7 +29,9 @@ namespace SpaceInvaders {
         Bullet b;
         int noBull = 0;// used to get a unique name for each bullet, to know which one to delete
         List<Bullet> bullets = new List<Bullet>();// thought having a list of bullets in the bullet class would be enough but this seems to work I'm just gonna leave it like this
+        List<Bullet> alienBullets = new List<Bullet>();
         int firingInterval = 0; //so there's not a constant fire rate
+        int alienFiringInterval = 0;
         List<Alien> aliens = new List<Alien>();
         public DispatcherTimer AliensMove; 
         public int score = 0;
@@ -92,12 +94,18 @@ namespace SpaceInvaders {
                         a.delete(a.identity);
                         score += 100;
                         textBox.Text = $"{score}";
-                        aliens.Remove(a);
+                         aliens.Remove(a);
                         bullets.Remove(b);
                         break;
                     } 
                 }
                 break;
+            }
+
+            foreach(Bullet  b in alienBullets) {
+                if (b.PosX >= player.PosX && (b.PosX + b.width) <= (player.actualX + player.PosX) && b.PosY >= (space.ActualHeight - 60) && b.PosY <= (space.ActualHeight - 30)) { 
+                    MessageBox.Show("GAME OVER");
+                }
             }
            
         }
@@ -108,13 +116,27 @@ namespace SpaceInvaders {
             updateShip();
             updateBullets();
             checkCollisions();
-        
+            alienFiringInterval++;
+            fireAliens();
+            updateAlienBullets();
+
         }
 
         void updateBullets() {
             foreach (Bullet b in bullets) {
-                b.forward();
+                b.forward(false);
                 if (b.PosY <= 0) {
+                    b.delete(b.identity);
+                    bullets.Remove(b);
+                    break;
+                }
+            }
+        }
+
+        void updateAlienBullets() {
+            foreach (Bullet b in alienBullets) {
+                b.forward(true);
+                if (b.PosY <= space.ActualHeight) {
                     b.delete(b.identity);
                     bullets.Remove(b);
                     break;
@@ -133,7 +155,7 @@ namespace SpaceInvaders {
                     break;
                 case state.shooting:
                     if (firingInterval > 25) {
-                        b = new Bullet(space, player.actualX, Convert.ToString(noBull));
+                        b = new Bullet(space, player.actualX,50, Convert.ToString(noBull), true);
                         noBull++;
                         bullets.Add(b);
                         firingInterval = 0;
@@ -141,6 +163,17 @@ namespace SpaceInvaders {
                     break;
             }
 
+        }
+
+        void fireAliens() {
+            if (alienFiringInterval > 50) {
+                Random r = new Random();
+                int i = r.Next(0, aliens.Count);
+                b = new Bullet(space, aliens[i].PosX, aliens[i].PosY, Convert.ToString(noBull), false);
+                noBull++;
+                alienBullets.Add(b);
+                alienFiringInterval = 0;
+            }
         }
          
         void highscore()
