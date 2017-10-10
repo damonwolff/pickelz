@@ -14,12 +14,13 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.IO;
+using Microsoft.VisualBasic;
 
 namespace SpaceInvaders {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    enum state { stopped, movingleft, movingright, shooting, GameOver }
+    enum state { stopped, movingleft, movingright, shooting, GameOver}
     
     public partial class MainWindow : Window {
         public DispatcherTimer theTimer;
@@ -60,23 +61,30 @@ namespace SpaceInvaders {
         }
 
         void addAliens(int lev) {
-            double x = 50;
+            double x = 120;
             double y = 15;
             for (int k = 0; k < lev; k++)
             {
                 
-                for (int i = 0; i < 15; i++)
+                for (int i = 0; i < 10; i++)
                 {
                     Alien a = new Alien(space, x, y, Convert.ToString(i));
                     aliens.Add(a);
                     x = x + 30;
                 }
-                y -= 30;
-                x = 50;
+                y = y - 30;
+                x = 120;
             }
         }
 
         public void checkCollisions() {
+            if (aliens.Count == 0)
+            {
+                lvl++;
+                addAliens(lvl);
+                
+
+            }
             foreach (Bullet b in bullets) {
                 foreach (Alien a in aliens) {
                     if (b.PosX >= a.PosX && (b.PosX + b.width) <= (a.width + a.PosX) && b.PosY <= a.PosY + a.height) {
@@ -85,16 +93,13 @@ namespace SpaceInvaders {
                         score += 100;
                         textBox.Text = $"{score}";
                         aliens.Remove(a);
+                        bullets.Remove(b);
                         break;
-                    }
+                    } 
                 }
+                break;
             }
-            //if (aliens.Count == 0)
-            //{
-            //    lvl++;
-            //    addAliens(lvl);                      this bugs game...
-               
-            //}
+           
         }
 
 
@@ -111,6 +116,8 @@ namespace SpaceInvaders {
                 b.forward();
                 if (b.PosY <= 0) {
                     b.delete(b.identity);
+                    bullets.Remove(b);
+                    break;
                 }
             }
         }
@@ -138,6 +145,50 @@ namespace SpaceInvaders {
          
         void highscore()
         {
+            string name = Microsoft.VisualBasic.Interaction.InputBox("enter your name", "name", "");
+            if (lvl == 11 || shipState == state.GameOver )
+            {
+                StreamReader r = File.OpenText("highscores");
+                string sline = r.ReadLine();
+                List<int> xs = new List<int>();
+                List<string> ys = new List<string>();
+                int k = 0;
+                while (sline != null)
+                {
+                    string[] temp = sline.Split(' ');
+                   ys[k] = temp[1];
+                   xs[k] = Convert.ToInt32(temp[2]);
+                   k++;
+                }
+                r.Close();
+                int pos = -1;
+                for(int i =0; i < xs.Count; i++)
+                {
+                    if (score > xs[i])
+                    {
+                        pos = i;
+                        xs.Insert(i, score);
+                        xs.Remove(xs[xs.Count]);
+                        ys.Insert(i, name);
+                        ys.Remove(ys[ys.Count]);
+                        break;
+                        
+                    }
+                 
+                }
+                int j = 0;
+                StreamWriter w = File.CreateText("highscore");
+                foreach(string s in ys)
+                {
+                    sline = ($"{ys.IndexOf(s)+1} {s} {xs[j]}");
+                    j++;
+                }
+
+                
+                // change image on background to be a congratulations
+                
+                
+            }
             
         }
 

@@ -39,8 +39,19 @@ namespace SpaceInvaders {
 
         public void move()
         {
-            PosY += 5;
-            Canvas.SetTop(alien, PosY);
+            //int VelX = 10;
+            //if (PosX - VelX > 0 || PosX + VelX < c.ActualWidth - alien.ActualWidth)
+            //{
+            //    PosX += VelX;
+            //    Canvas.SetLeft(alien, PosX);
+            //}
+          
+                PosY += 7;
+                Canvas.SetTop(alien, PosY);
+                //VelX = VelX * -1;
+
+        
+
         }
         
 
