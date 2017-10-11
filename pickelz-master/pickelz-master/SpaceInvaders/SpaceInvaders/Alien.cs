@@ -54,6 +54,7 @@ namespace SpaceInvaders {
         }
 
 
+
         public void delete(string a) {
             var thing = (UIElement)LogicalTreeHelper.FindLogicalNode(c, a);
             c.Children.Remove(thing);

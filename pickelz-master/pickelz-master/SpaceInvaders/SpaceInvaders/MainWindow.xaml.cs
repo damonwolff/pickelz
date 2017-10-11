@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.IO;
 using Microsoft.VisualBasic;
+using System.Media;
 
 namespace SpaceInvaders {
     /// <summary>
@@ -83,10 +84,16 @@ namespace SpaceInvaders {
             if (aliens.Count == 0)
             {
                 lvl++;
-                addAliens(lvl);
+                
+                if (lvl < 11)
+                {
+                    addAliens(lvl);
+                }
+                
                 
 
             }
+            
             foreach (Bullet b in bullets) {
                 foreach (Alien a in aliens) {
                     if (b.PosX >= a.PosX && (b.PosX + b.width) <= (a.width + a.PosX) && b.PosY <= a.PosY + a.height) {
@@ -96,6 +103,7 @@ namespace SpaceInvaders {
                         textBox.Text = $"{score}";
                          aliens.Remove(a);
                         bullets.Remove(b);
+                        playSound("explode");
                         break;
                     } 
                 }
@@ -103,9 +111,15 @@ namespace SpaceInvaders {
             }
 
             foreach(Bullet  b in alienBullets) {
-                if (b.PosX >= player.PosX && (b.PosX + b.width) <= (player.actualX + player.PosX) && b.PosY >= (space.ActualHeight - 60) && b.PosY <= (space.ActualHeight - 30)) { 
+                if (b.PosX >= player.PosX/2 && (b.PosX + b.width) <= (player.actualX/2 + player.PosX) && b.PosY <= (space.ActualHeight - 60) && b.PosY <= (space.ActualHeight - 30)) {
+                    theTimer.IsEnabled = !theTimer.IsEnabled;
+                    AliensMove.IsEnabled = !AliensMove.IsEnabled;
+                    shipState = state.GameOver;
                     MessageBox.Show("GAME OVER");
+                    highscore();
+                    break;
                 }
+               
             }
            
         }
@@ -159,6 +173,7 @@ namespace SpaceInvaders {
                         noBull++;
                         bullets.Add(b);
                         firingInterval = 0;
+                        playSound("bullet");
                     }
                     break;
             }
@@ -170,6 +185,7 @@ namespace SpaceInvaders {
                 Random r = new Random();
                 int i = r.Next(0, aliens.Count);
                 b = new Bullet(space, aliens[i].PosX, aliens[i].PosY, Convert.ToString(noBull), false);
+                b.bullet.Source = new BitmapImage(new Uri($"pack://application:,,,/Bullet2.png"));
                 noBull++;
                 alienBullets.Add(b);
                 alienFiringInterval = 0;
@@ -179,50 +195,73 @@ namespace SpaceInvaders {
         void highscore()
         {
             string name = Microsoft.VisualBasic.Interaction.InputBox("enter your name", "name", "");
+           
             if (lvl == 11 || shipState == state.GameOver )
             {
-                StreamReader r = File.OpenText("highscores");
-                string sline = r.ReadLine();
-                List<int> xs = new List<int>();
-                List<string> ys = new List<string>();
-                int k = 0;
-                while (sline != null)
-                {
-                    string[] temp = sline.Split(' ');
-                   ys[k] = temp[1];
-                   xs[k] = Convert.ToInt32(temp[2]);
-                   k++;
-                }
-                r.Close();
-                int pos = -1;
-                for(int i =0; i < xs.Count; i++)
-                {
-                    if (score > xs[i])
-                    {
-                        pos = i;
-                        xs.Insert(i, score);
-                        xs.Remove(xs[xs.Count]);
-                        ys.Insert(i, name);
-                        ys.Remove(ys[ys.Count]);
-                        break;
-                        
-                    }
-                 
-                }
-                int j = 0;
                 StreamWriter w = File.CreateText("highscore");
+                
+                if (File.Exists("highscore"))
+                {
+                    StreamReader r = File.OpenText("highscore");
+                    string sline = r.ReadLine();
+                    List<int> xs = new List<int>();
+                    List<string> ys = new List<string>();
+                    int k = 0;
+                    while (sline != null)
+                    {
+                        string[] temp = sline.Split(' ');
+                        ys[k] = temp[1];
+                        xs[k] = Convert.ToInt32(temp[2]);
+                        k++;
+                    }
+                    r.Close();
+                    int pos = -1;
+                    for (int i = 0; i < xs.Count; i++)
+                    {
+                        if (score > xs[i])
+                        {
+                            pos = i;
+                            xs.Insert(i, score);
+                            xs.Remove(xs[xs.Count]);
+                            ys.Insert(i, name);
+                            ys.Remove(ys[ys.Count]);
+                            break;
+
+                        }
+
+                    }
+              
+                int j = 0;
+                
                 foreach(string s in ys)
                 {
                     sline = ($"{ys.IndexOf(s)+1} {s} {xs[j]}");
                     j++;
+                    w.WriteLine(sline);
                 }
 
-                
-                // change image on background to be a congratulations
-                
-                
+               
+                }else
+                {
+                    w.WriteLine($"1 {name} {score}");
+                }
+                w.Close();
             }
             
+        }
+
+        void playSound(string x)
+        {
+            if (x == "bullet")
+            {
+                SoundPlayer bulletSound = new SoundPlayer(SpaceInvaders.Properties.Resources.little_robot_sound_factory_Laser_09);
+                bulletSound.Play();
+            }
+            if (x == "explode")
+            {
+                SoundPlayer explodeSound = new SoundPlayer(SpaceInvaders.Properties.Resources.leisure_video_game_retro_8bit_explosion_or_gun_001);
+                explodeSound.Play();
+            }
         }
 
         private void Windows_KeyDown(object sender, KeyEventArgs e) {
@@ -234,7 +273,7 @@ namespace SpaceInvaders {
                     theTimer.IsEnabled = !theTimer.IsEnabled;
                     AliensMove.IsEnabled = !AliensMove.IsEnabled;
                     break;
-                case Key.Escape: this.Close();break;
+                case Key.Escape: StartScreen open = new StartScreen(); open.Show(); this.Close();break;
             }
         }
 

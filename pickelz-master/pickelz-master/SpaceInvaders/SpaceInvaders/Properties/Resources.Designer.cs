@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 namespace SpaceInvaders.Properties {
-
+    using System;
 
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
@@ -58,5 +58,40 @@ namespace SpaceInvaders.Properties {
                 resourceCulture = value;
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream julien_matthey_science_fiction_laser_001
+        {
+            get
+            {
+                return ResourceManager.GetStream("julien_matthey_science_fiction_laser_001", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream leisure_video_game_retro_8bit_explosion_or_gun_001
+        {
+            get
+            {
+                return ResourceManager.GetStream("leisure_video_game_retro_8bit_explosion_or_gun_001", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream little_robot_sound_factory_Laser_09
+        {
+            get
+            {
+                return ResourceManager.GetStream("little_robot_sound_factory_Laser_09", resourceCulture);
+            }
+        }
+
+       
     }
 }
