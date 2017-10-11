@@ -17,16 +17,16 @@ namespace SpaceInvaders {
         public string identity { get; set; }
         public Canvas c;
 
-        public Alien(Canvas space, double x , double y, string i) {
+        public Alien(Canvas space, double x, double y, string i) {
             alien = new Image();
-            alien.Name ="n"+i;
-            identity ="n"+ i;
+            alien.Name = "n" + i;
+            identity = "n" + i;
             space.Children.Add(alien);
             alien.Source = new BitmapImage(new Uri($"pack://application:,,,/alien.png"));
             alien.Width = 25;
             alien.Height = 15;
 
-            
+
             c = space;
 
             Canvas.SetLeft(alien, x);
@@ -34,31 +34,31 @@ namespace SpaceInvaders {
             PosX = Canvas.GetLeft(alien);
             PosY = Canvas.GetTop(alien);
             height = alien.ActualHeight;
-           width = 25;
+            width = 25;
         }
 
-        public void move()
-        {
+        public void move() {
             //int VelX = 10;
             //if (PosX - VelX > 0 || PosX + VelX < c.ActualWidth - alien.ActualWidth)
             //{
             //    PosX += VelX;
             //    Canvas.SetLeft(alien, PosX);
             //}
-          
-                PosY += 7;
-                Canvas.SetTop(alien, PosY);
-                //VelX = VelX * -1;
 
-        
+            PosY += 7;
+            Canvas.SetTop(alien, PosY);
+            //VelX = VelX * -1;
+
+
 
         }
-        
+
+
 
         public void delete(string a) {
             var thing = (UIElement)LogicalTreeHelper.FindLogicalNode(c, a);
             c.Children.Remove(thing);
-            
+
         }
     }
 }

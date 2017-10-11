@@ -30,7 +30,9 @@ namespace SpaceInvaders {
         Bullet b;
         int noBull = 0;// used to get a unique name for each bullet, to know which one to delete
         List<Bullet> bullets = new List<Bullet>();// thought having a list of bullets in the bullet class would be enough but this seems to work I'm just gonna leave it like this
+        List<Bullet> alienBullets = new List<Bullet>();
         int firingInterval = 0; //so there's not a constant fire rate
+        int alienFiringInterval = 0;
         List<Alien> aliens = new List<Alien>();
         public DispatcherTimer AliensMove; 
         public int score = 0;
@@ -82,7 +84,12 @@ namespace SpaceInvaders {
             if (aliens.Count == 0)
             {
                 lvl++;
-                addAliens(lvl);
+                highscore();
+                if (lvl < 11)
+                {
+                    addAliens(lvl);
+                }
+                
                 
 
             }
@@ -93,13 +100,25 @@ namespace SpaceInvaders {
                         a.delete(a.identity);
                         score += 100;
                         textBox.Text = $"{score}";
-                        aliens.Remove(a);
+                         aliens.Remove(a);
                         bullets.Remove(b);
                         playSound("explode");
                         break;
                     } 
                 }
                 break;
+            }
+
+            foreach(Bullet  b in alienBullets) {
+                if (b.PosX == player.PosX/2 && (b.PosX + b.width) <= (player.actualX/2 + player.PosX) && b.PosY >= (space.ActualHeight - 60) && b.PosY >= (space.ActualHeight - 30)) {
+                    theTimer.IsEnabled = !theTimer.IsEnabled;
+                    AliensMove.IsEnabled = !AliensMove.IsEnabled;
+                    shipState = state.GameOver;
+                    MessageBox.Show("GAME OVER");
+                    highscore();
+                    break;
+                }
+               
             }
            
         }
@@ -110,13 +129,27 @@ namespace SpaceInvaders {
             updateShip();
             updateBullets();
             checkCollisions();
-        
+            alienFiringInterval++;
+            fireAliens();
+            updateAlienBullets();
+
         }
 
         void updateBullets() {
             foreach (Bullet b in bullets) {
-                b.forward();
+                b.forward(false);
                 if (b.PosY <= 0) {
+                    b.delete(b.identity);
+                    bullets.Remove(b);
+                    break;
+                }
+            }
+        }
+
+        void updateAlienBullets() {
+            foreach (Bullet b in alienBullets) {
+                b.forward(true);
+                if (b.PosY <= space.ActualHeight) {
                     b.delete(b.identity);
                     bullets.Remove(b);
                     break;
@@ -135,62 +168,83 @@ namespace SpaceInvaders {
                     break;
                 case state.shooting:
                     if (firingInterval > 25) {
-                        b = new Bullet(space, player.actualX, Convert.ToString(noBull));
-                        playSound("bullet");
+                        b = new Bullet(space, player.actualX,50, Convert.ToString(noBull), true);
                         noBull++;
                         bullets.Add(b);
                         firingInterval = 0;
+                        playSound("bullet");
                     }
                     break;
             }
 
         }
+
+        void fireAliens() {
+            if (alienFiringInterval > 50) {
+                Random r = new Random();
+                int i = r.Next(0, aliens.Count);
+                b = new Bullet(space, aliens[i].PosX, aliens[i].PosY, Convert.ToString(noBull), false);
+                b.bullet.Source = new BitmapImage(new Uri($"pack://application:,,,/Bullet2.png"));
+                noBull++;
+                alienBullets.Add(b);
+                alienFiringInterval = 0;
+            }
+        }
          
         void highscore()
         {
             string name = Microsoft.VisualBasic.Interaction.InputBox("enter your name", "name", "");
+           
             if (lvl == 11 || shipState == state.GameOver )
             {
-                StreamReader r = File.OpenText("highscores");
-                string sline = r.ReadLine();
-                List<int> xs = new List<int>();
-                List<string> ys = new List<string>();
-                int k = 0;
-                while (sline != null)
-                {
-                    string[] temp = sline.Split(' ');
-                   ys[k] = temp[1];
-                   xs[k] = Convert.ToInt32(temp[2]);
-                   k++;
-                }
-                r.Close();
-                int pos = -1;
-                for(int i =0; i < xs.Count; i++)
-                {
-                    if (score > xs[i])
-                    {
-                        pos = i;
-                        xs.Insert(i, score);
-                        xs.Remove(xs[xs.Count]);
-                        ys.Insert(i, name);
-                        ys.Remove(ys[ys.Count]);
-                        break;
-                        
-                    }
-                 
-                }
-                int j = 0;
                 StreamWriter w = File.CreateText("highscore");
+                
+                if (File.Exists("highscores"))
+                {
+                    StreamReader r = File.OpenText("highscores");
+                    string sline = r.ReadLine();
+                    List<int> xs = new List<int>();
+                    List<string> ys = new List<string>();
+                    int k = 0;
+                    while (sline != null)
+                    {
+                        string[] temp = sline.Split(' ');
+                        ys[k] = temp[1];
+                        xs[k] = Convert.ToInt32(temp[2]);
+                        k++;
+                    }
+                    r.Close();
+                    int pos = -1;
+                    for (int i = 0; i < xs.Count; i++)
+                    {
+                        if (score > xs[i])
+                        {
+                            pos = i;
+                            xs.Insert(i, score);
+                            xs.Remove(xs[xs.Count]);
+                            ys.Insert(i, name);
+                            ys.Remove(ys[ys.Count]);
+                            break;
+
+                        }
+
+                    }
+              
+                int j = 0;
+                
                 foreach(string s in ys)
                 {
                     sline = ($"{ys.IndexOf(s)+1} {s} {xs[j]}");
                     j++;
+                    w.WriteLine(sline);
                 }
 
-                
-                // change image on background to be a congratulations
-                
-                
+               
+                }else
+                {
+                    w.WriteLine($"1 {name} {score}");
+                }
+                w.Close();
             }
             
         }

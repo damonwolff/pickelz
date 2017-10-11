@@ -52,6 +52,7 @@ namespace SpaceInvaders
             c = space;
             Canvas.SetLeft(ship, 250);
             Canvas.SetBottom(ship, 30);
+            PosY = Canvas.GetBottom(ship)+ship.ActualHeight;
             PosX = 250;
 
 
