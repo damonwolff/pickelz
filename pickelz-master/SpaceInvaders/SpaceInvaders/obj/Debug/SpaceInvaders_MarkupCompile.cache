@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-\\ict.ru.ac.za\DFS\UGHomes\g17c9313\Desktop\pickelz-master\SpaceInvaders\SpaceInvaders\obj\Debug\
+\\ict.ru.ac.za\DFS\UGHomes\g17c9313\Desktop\pickelz-master\pickelz-master\pickelz-master\SpaceInvaders\SpaceInvaders\obj\Debug\
 SpaceInvaders
 none
 false
 DEBUG;TRACE
-\\ict.ru.ac.za\DFS\UGHomes\g17c9313\Desktop\pickelz-master\SpaceInvaders\SpaceInvaders\App.xaml
-11151548125
+\\ict.ru.ac.za\DFS\UGHomes\g17c9313\Desktop\pickelz-master\pickelz-master\pickelz-master\SpaceInvaders\SpaceInvaders\App.xaml
+3-1726022438
 4-387772
-8265097488
+10-1638891711
 14934750342
-MainWindow.xaml;
+LeaderBoard.xaml;MainWindow.xaml;StartScreen.xaml;
 
 False
 

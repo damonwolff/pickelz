@@ -13,6 +13,7 @@ namespace SpaceInvaders {
         public Image bullet;
         public double PosX { get; set; }
         public double PosY { get; set; }
+        public double YfromTop { get; set; }
         public double width { get; set; }
         public string identity { get; set; }
         public Canvas c;
@@ -38,6 +39,7 @@ namespace SpaceInvaders {
                         c.Children.Remove(b);
                     }
                     PosY = c.ActualHeight + Canvas.GetTop(b);
+                    YfromTop = Canvas.GetTop(b);
                 }
             }
         }
@@ -53,17 +55,17 @@ namespace SpaceInvaders {
 
             if (isShip == true) {
                 Canvas.SetBottom(bullet, y);
-                PosY = c.ActualHeight - Canvas.GetBottom(bullet);                
+                PosY = c.ActualHeight - Canvas.GetBottom(bullet);
                 bullets.Add(this.bullet);
             } else {
                 Canvas.SetTop(bullet, y);
                 PosY = c.ActualHeight - Canvas.GetTop(bullet);
                 alienBullets.Add(this.bullet);
             }
-            width = bullet.ActualWidth;
+
             Canvas.SetLeft(bullet, x);
             PosX = Canvas.GetLeft(bullet);
-
+            width = 10;
         }
 
         public void delete(string b) {

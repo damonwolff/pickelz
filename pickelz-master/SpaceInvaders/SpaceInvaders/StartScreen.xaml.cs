@@ -24,10 +24,17 @@ namespace SpaceInvaders
             InitializeComponent();
         }
 
-        private void button_Click(object sender, RoutedEventArgs e)
+        private void playBtn_Click(object sender, RoutedEventArgs e)
         {
             MainWindow open = new MainWindow();
             open.Show();
+            this.Close();
+        }
+
+        private void leaderBoardBtn_Click(object sender, RoutedEventArgs e)
+        {
+            LeaderBoard x = new LeaderBoard();
+            x.Show();
             this.Close();
         }
     }

@@ -1,0 +1,11 @@
+This is SpaceInvaders
+
+in order to play you need to know the keys
+the left and right arrow keys are to move, 
+spacebar is to shoot, 
+escape is to return to main menu and p is to pause 
+
+the objective of the game is to stop the invaders, they will fire back so be careful or it could mean death
+pretty simple right?!
+
+now go on and defend earth ... or something 

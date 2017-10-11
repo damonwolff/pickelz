@@ -7,9 +7,12 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525"
         KeyDown="Windows_KeyDown"
-        KeyUp="Windows_KeyUp">
+        KeyUp="Windows_KeyUp" ResizeMode="NoResize">
     <Grid>
-        <Canvas x:Name="space" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Black">
+        <Canvas x:Name="space" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Canvas.Background>
+                <ImageBrush ImageSource="Resources/blackspace.jpg"/>
+            </Canvas.Background>
             <TextBox x:Name="textBox" Height="17" Canvas.Left="10" TextWrapping="Wrap" Text="0" Canvas.Top="10" Width="40" RenderTransformOrigin="0.504,0.471" Foreground="#FFFFF9F9" BorderBrush="Black" Background="Black" SelectionBrush="Black" FontSize="10" FontFamily="Segoe WP Black" IsReadOnlyCaretVisible="True"/>
         </Canvas>
 

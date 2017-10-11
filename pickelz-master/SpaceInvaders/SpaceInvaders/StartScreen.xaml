@@ -5,12 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SpaceInvaders"
         mc:Ignorable="d"
-        Title="StartScreen" Height="315.538" Width="507.968">
+        Title="StartScreen" Height="303.114" Width="515.917">
+    <Window.Background>
+        <ImageBrush ImageSource="Resources/maxresdefault.jpg"/>
+    </Window.Background>
     <Grid>
-        <Grid.Background>
-            <ImageBrush ImageSource="pack://siteoforigin:,,,/Resources/maxresdefault.jpg"/>
-        </Grid.Background>
-        <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="96,223,0,0" VerticalAlignment="Top" Width="75" Click="button_Click"/>
+        <Button x:Name="playBtn" Content="Begin Invasion" HorizontalAlignment="Left" Margin="203,126,0,0" VerticalAlignment="Top" Width="88" Click="playBtn_Click" Opacity="0.9" BorderThickness="0"/>
+        <Button x:Name="highscoreBtn" Content="Leader Board" HorizontalAlignment="Left" Margin="553,201,-133,0" VerticalAlignment="Top" Width="88" Click="playBtn_Click" Opacity="0.9" BorderThickness="0" RenderTransformOrigin="0.502,2.688"/>
+        <Button x:Name="leaderBoardBtn" Content="Leader Board" HorizontalAlignment="Left" Margin="10,242,0,0" VerticalAlignment="Top" Width="75" Click="leaderBoardBtn_Click"/>
 
     </Grid>
 </Window>
