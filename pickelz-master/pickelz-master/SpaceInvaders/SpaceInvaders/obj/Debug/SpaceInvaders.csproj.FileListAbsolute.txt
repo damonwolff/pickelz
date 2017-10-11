@@ -104,3 +104,8 @@ C:\Users\Damon\Documents\GitHub\pickelz\pickelz-master\pickelz-master\SpaceInvad
 \\ict.ru.ac.za\DFS\UGHomes\g16h0647\Desktop\g\pickelz-master\pickelz-master\SpaceInvaders\SpaceInvaders\obj\Debug\StartScreen.baml
 \\ict.ru.ac.za\DFS\UGHomes\g16h0647\Desktop\g\pickelz-master\pickelz-master\SpaceInvaders\SpaceInvaders\obj\Debug\LeaderBoard.g.cs
 \\ict.ru.ac.za\DFS\UGHomes\g16h0647\Desktop\g\pickelz-master\pickelz-master\SpaceInvaders\SpaceInvaders\obj\Debug\LeaderBoard.baml
+C:\Users\Damon\Documents\GitHub\pickelz\pickelz-master\pickelz-master\SpaceInvaders\SpaceInvaders\obj\Debug\LeaderBoard.g.cs
+C:\Users\Damon\Documents\GitHub\pickelz\pickelz-master\pickelz-master\SpaceInvaders\SpaceInvaders\obj\Debug\StartScreen.g.cs
+C:\Users\Damon\Documents\GitHub\pickelz\pickelz-master\pickelz-master\SpaceInvaders\SpaceInvaders\obj\Debug\SpaceInvaders_Content.g.cs
+C:\Users\Damon\Documents\GitHub\pickelz\pickelz-master\pickelz-master\SpaceInvaders\SpaceInvaders\obj\Debug\LeaderBoard.baml
+C:\Users\Damon\Documents\GitHub\pickelz\pickelz-master\pickelz-master\SpaceInvaders\SpaceInvaders\obj\Debug\StartScreen.baml

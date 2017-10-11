@@ -21,8 +21,8 @@ namespace SpaceInvaders {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    enum state { stopped, movingleft, movingright, shooting, GameOver}
-    
+    enum state { stopped, movingleft, movingright, shooting, GameOver }
+
     public partial class MainWindow : Window {
         public DispatcherTimer theTimer;
         state shipState;
@@ -34,10 +34,10 @@ namespace SpaceInvaders {
         int firingInterval = 0; //so there's not a constant fire rate
         int alienFiringInterval = 0;
         List<Alien> aliens = new List<Alien>();
-        public DispatcherTimer AliensMove; 
+        public DispatcherTimer AliensMove;
         public int score = 0;
         int lvl = 1;
-        
+
         public MainWindow() {
             InitializeComponent();
 
@@ -55,10 +55,8 @@ namespace SpaceInvaders {
 
         }
 
-        private void AliensMove_Tick(object sender, EventArgs e)
-        {
-            foreach(Alien a in aliens)
-            {
+        private void AliensMove_Tick(object sender, EventArgs e) {
+            foreach (Alien a in aliens) {
                 a.move();
             }
         }
@@ -66,11 +64,9 @@ namespace SpaceInvaders {
         void addAliens(int lev) {
             double x = 120;
             double y = 15;
-            for (int k = 0; k < lev; k++)
-            {
-                
-                for (int i = 0; i < 10; i++)
-                {
+            for (int k = 0; k < lev; k++) {
+
+                for (int i = 0; i < 10; i++) {
                     Alien a = new Alien(space, x, y, Convert.ToString(i));
                     aliens.Add(a);
                     x = x + 30;
@@ -81,19 +77,17 @@ namespace SpaceInvaders {
         }
 
         public void checkCollisions() {
-            if (aliens.Count == 0)
-            {
+            if (aliens.Count == 0) {
                 lvl++;
-                
-                if (lvl < 11)
-                {
+
+                if (lvl < 11) {
                     addAliens(lvl);
                 }
-                
-                
+
+
 
             }
-            
+
             foreach (Bullet b in bullets) {
                 foreach (Alien a in aliens) {
                     if (b.PosX >= a.PosX && (b.PosX + b.width) <= (a.width + a.PosX) && b.PosY <= a.PosY + a.height) {
@@ -101,27 +95,42 @@ namespace SpaceInvaders {
                         a.delete(a.identity);
                         score += 100;
                         textBox.Text = $"{score}";
-                         aliens.Remove(a);
+                        aliens.Remove(a);
                         bullets.Remove(b);
                         playSound("explode");
                         break;
-                    } 
+                    }
                 }
                 break;
             }
 
-            foreach(Bullet  b in alienBullets) {
-                if (b.PosX >= player.PosX/2 && (b.PosX + b.width) <= (player.actualX/2 + player.PosX) && b.PosY <= (space.ActualHeight - 60) && b.PosY <= (space.ActualHeight - 30)) {
+            foreach (Bullet b in alienBullets) {
+                /* so basically it should be:
+                left of bullet >= left of ship &&
+                left of bullet + it's width <= left of ship + it's width &&
+                top of bullet + height >= top of ship &&
+                top of bullet + height <= top of ship + it's height 
+                 */
+                double leftBull = b.PosX;
+                double rightBull = b.PosX + b.width;
+                double leftofShip = player.PosX;
+                double rightOfShip = player.PosX + 65;
+                double shipTopfromTop = space.ActualHeight - player.PosY - 30;
+                double shipBotfromTop = space.ActualHeight - player.PosY;
+                double TopofBulfromTop = b.YfromTop;
+                double botofBulFromTop = b.YfromTop + 15;
+                //if (b.PosX >= player.actualX - 27.5 && (b.PosX + b.width) <= player.actualX && b.PosY >= (space.ActualHeight - player.PosY) && b.PosY <= (space.ActualHeight - player.PosY + 30)) {
+                if (leftBull >= leftofShip && rightBull <= rightOfShip && TopofBulfromTop>= shipTopfromTop && botofBulFromTop <= shipBotfromTop) {
                     theTimer.IsEnabled = !theTimer.IsEnabled;
                     AliensMove.IsEnabled = !AliensMove.IsEnabled;
                     shipState = state.GameOver;
                     MessageBox.Show("GAME OVER");
-                    highscore();
+                   // highscore();
                     break;
                 }
-               
+
             }
-           
+
         }
 
 
@@ -168,8 +177,8 @@ namespace SpaceInvaders {
                     player.LeftRight(shipState);
                     break;
                 case state.shooting:
-                    if (firingInterval > 25) {
-                        b = new Bullet(space, player.actualX,50, Convert.ToString(noBull), true);
+                    if (firingInterval > 15) {
+                        b = new Bullet(space, player.actualX, 50, Convert.ToString(noBull), true);
                         noBull++;
                         bullets.Add(b);
                         firingInterval = 0;
@@ -191,24 +200,20 @@ namespace SpaceInvaders {
                 alienFiringInterval = 0;
             }
         }
-         
-        void highscore()
-        {
+
+        void highscore() {
             string name = Microsoft.VisualBasic.Interaction.InputBox("enter your name", "name", "");
-           
-            if (lvl == 11 || shipState == state.GameOver )
-            {
+
+            if (lvl == 11 || shipState == state.GameOver) {
                 StreamWriter w = File.CreateText("highscore");
-                
-                if (File.Exists("highscore"))
-                {
+
+                if (File.Exists("highscore")) {
                     StreamReader r = File.OpenText("highscore");
                     string sline = r.ReadLine();
                     List<int> xs = new List<int>();
                     List<string> ys = new List<string>();
                     int k = 0;
-                    while (sline != null)
-                    {
+                    while (sline != null) {
                         string[] temp = sline.Split(' ');
                         ys[k] = temp[1];
                         xs[k] = Convert.ToInt32(temp[2]);
@@ -216,10 +221,8 @@ namespace SpaceInvaders {
                     }
                     r.Close();
                     int pos = -1;
-                    for (int i = 0; i < xs.Count; i++)
-                    {
-                        if (score > xs[i])
-                        {
+                    for (int i = 0; i < xs.Count; i++) {
+                        if (score > xs[i]) {
                             pos = i;
                             xs.Insert(i, score);
                             xs.Remove(xs[xs.Count]);
@@ -230,35 +233,30 @@ namespace SpaceInvaders {
                         }
 
                     }
-              
-                int j = 0;
-                
-                foreach(string s in ys)
-                {
-                    sline = ($"{ys.IndexOf(s)+1} {s} {xs[j]}");
-                    j++;
-                    w.WriteLine(sline);
-                }
 
-               
-                }else
-                {
+                    int j = 0;
+
+                    foreach (string s in ys) {
+                        sline = ($"{ys.IndexOf(s) + 1} {s} {xs[j]}");
+                        j++;
+                        w.WriteLine(sline);
+                    }
+
+
+                } else {
                     w.WriteLine($"1 {name} {score}");
                 }
                 w.Close();
             }
-            
+
         }
 
-        void playSound(string x)
-        {
-            if (x == "bullet")
-            {
+        void playSound(string x) {
+            if (x == "bullet") {
                 SoundPlayer bulletSound = new SoundPlayer(SpaceInvaders.Properties.Resources.little_robot_sound_factory_Laser_09);
                 bulletSound.Play();
             }
-            if (x == "explode")
-            {
+            if (x == "explode") {
                 SoundPlayer explodeSound = new SoundPlayer(SpaceInvaders.Properties.Resources.leisure_video_game_retro_8bit_explosion_or_gun_001);
                 explodeSound.Play();
             }
@@ -273,7 +271,7 @@ namespace SpaceInvaders {
                     theTimer.IsEnabled = !theTimer.IsEnabled;
                     AliensMove.IsEnabled = !AliensMove.IsEnabled;
                     break;
-                case Key.Escape: StartScreen open = new StartScreen(); open.Show(); this.Close();break;
+                case Key.Escape: StartScreen open = new StartScreen(); open.Show(); this.Close(); break;
             }
         }
 

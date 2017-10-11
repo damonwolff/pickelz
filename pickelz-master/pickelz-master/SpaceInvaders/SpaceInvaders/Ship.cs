@@ -14,7 +14,7 @@ namespace SpaceInvaders
     {
         public Image ship = new Image();
         public double PosX { get; set; }
-        private double PosY { get; set; }
+        public double PosY { get; set; }
         public int VelX { get; set; }
         public double actualX;
 
@@ -52,7 +52,7 @@ namespace SpaceInvaders
             c = space;
             Canvas.SetLeft(ship, 250);
             Canvas.SetBottom(ship, 30);
-            PosY = Canvas.GetBottom(ship)+ship.ActualHeight;
+            PosY = Canvas.GetBottom(ship);
             PosX = 250;
 
 
