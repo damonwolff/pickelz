@@ -113,3 +113,7 @@ C:\Users\Damon\Documents\GitHub\pickelz\pickelz-master\pickelz-master\SpaceInvad
 \\ict.ru.ac.za\DFS\UGHomes\g17c9313\Desktop\pickelz-master\pickelz-master\pickelz-master\SpaceInvaders\SpaceInvaders\obj\Debug\StartScreen.g.cs
 \\ict.ru.ac.za\DFS\UGHomes\g17c9313\Desktop\pickelz-master\pickelz-master\pickelz-master\SpaceInvaders\SpaceInvaders\obj\Debug\LeaderBoard.baml
 \\ict.ru.ac.za\DFS\UGHomes\g17c9313\Desktop\pickelz-master\pickelz-master\pickelz-master\SpaceInvaders\SpaceInvaders\obj\Debug\StartScreen.baml
+\\ict.ru.ac.za\DFS\UGHomes\g17c9313\Desktop\pickelz-master\SpaceInvaders\SpaceInvaders\obj\Debug\LeaderBoard.g.cs
+\\ict.ru.ac.za\DFS\UGHomes\g17c9313\Desktop\pickelz-master\SpaceInvaders\SpaceInvaders\obj\Debug\StartScreen.g.cs
+\\ict.ru.ac.za\DFS\UGHomes\g17c9313\Desktop\pickelz-master\SpaceInvaders\SpaceInvaders\obj\Debug\LeaderBoard.baml
+\\ict.ru.ac.za\DFS\UGHomes\g17c9313\Desktop\pickelz-master\SpaceInvaders\SpaceInvaders\obj\Debug\StartScreen.baml

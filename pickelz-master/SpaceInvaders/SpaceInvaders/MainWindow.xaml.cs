@@ -250,6 +250,7 @@ namespace SpaceInvaders {
                             newxs.Add(xs[k]);
                             newys.Add(ys[k]);
                         }
+                        pos = 0;
                         if (pos < xs.Count)
                         {
                             for (int k = pos; k < xs.Count; k++)
